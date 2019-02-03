@@ -12,3 +12,17 @@ one triggering the bug, the "sometimes" case and a workaround dir:
         proper compile error message) upon renaming the dir and sources..
         
     - src_wa1:  a workaround: flat (single) package, still generic. This seems to compile.
+
+
+# Status
+Initial post: code simplified with some workarouds found. To be submitted to AdaCore shortly.
+
+# Workarounds
+Here are the known so far workarounds:
+1. Use abstract primitives instead of null. This works, but is not ideal. Null primities are there for a purpose.
+
+2. Use flat package structure. This seems to be triggered when derivation happens in a child package. Perhaps gnat loses track of null primitive info when processing a child package.
+
+3. Generics: this seems not to happen when package hierarchy is not generic. If generics are used simply to select a specific data precision, consider defining
+type Real is new Float;
+at the top of the root package, instead of passing it as generic (this will also speed up compilation a lot). 

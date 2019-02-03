@@ -6,3 +6,4 @@ This is a holding place for the gnat bugs I encountered, to be reported to AdaCo
 
 # List of bugs
 
+1. [null primitives](gb_01/)  Null primitive ops on interfaces in generic child packages seem to not be implemented properly.
