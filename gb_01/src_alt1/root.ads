@@ -1,5 +1,6 @@
-generic 
-package root.child1 is 
+package root is 
+
+    type Real is new Float;
 
     type Base_Interface is limited interface; 
 
@@ -8,5 +9,5 @@ package root.child1 is
 
     type Derived_Interface is limited interface and Base_Interface; 
         
-end root.child1;
+end root;
 

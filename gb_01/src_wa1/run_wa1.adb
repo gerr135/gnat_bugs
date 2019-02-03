@@ -5,13 +5,12 @@
 -- GNU General Public License for more details.
 --
 
-with root.child;
+with root;
 
-procedure run_gb_01 is
+procedure run_wa1 is
 
     package R   is new Root(Real => Float); 
-    package RC  is new R.child;
 
 begin 
     null; 
-end run_gb_01;
+end run_wa1;

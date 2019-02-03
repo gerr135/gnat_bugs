@@ -7,11 +7,11 @@
 
 with root.child;
 
-procedure run_gb_01 is
+procedure run_alt1 is
 
-    package R   is new Root(Real => Float); 
-    package RC  is new R.child;
+    BT : Root.Child.Base_Type;
+    DT : Root.Child.Derived_Type;
 
 begin 
     null; 
-end run_gb_01;
+end run_alt1;
