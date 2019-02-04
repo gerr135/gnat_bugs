@@ -16,7 +16,7 @@ one triggering the bug, the "sometimes" case and a workaround dir:
 
 
 ## Status
-Initial post: code simplified with some workarouds found. To be submitted to AdaCore shortly.
+Reported to AdaCore on 4.02.2019.
 
 ## Workarounds
 Here are the known so far workarounds:
