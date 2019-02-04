@@ -24,15 +24,11 @@ Here are the known so far workarounds:
 
 2. Use flat package structure. This seems to be triggered when derivation happens in a child package. Perhaps gnat loses track of null primitive info when processing a child package.
 
-3. Generics: this seems not to happen when package hierarchy is not generic. If generics are used simply to select a specific data precision, consider defining 
-'''
-type Real is new Float;
-'''
-at the top of the root package, instead of passing it as generic (this will also speed up compilation a lot). 
+3. Generics: this seems not to happen when package hierarchy is not generic. If generics are used simply to select a specific data precision, consider defining `type Real is new Float;` at the top of the root package, instead of passing it as generic (this will also speed up compilation a lot). 
 
 ## Bug message
 A specific bug message that is triggered:
-'''
+```
 gprbuild -P gb_01.gpr
 Compile
    [Ada]          run_gb_01.adb
@@ -64,5 +60,6 @@ Consider also -gnatd.n switch (see debug.adb).
 compilation abandoned
 gprbuild: *** compilation phase failed
 make: *** [Makefile:8: gb_01] Error 4
-'''
+```
+
 A quick pick into a references file 'ada/gcc-interface/decl.c:429' suggests that gnat does not know how to handle the situation. Possibly some info from the base interface definition has not been retained..
