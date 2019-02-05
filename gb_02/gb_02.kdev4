@@ -1,0 +1,4 @@
+[Project]
+Name=gb_02
+Manager=KDevCustomMakeManager
+VersionControl=kdevgit
