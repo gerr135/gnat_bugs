@@ -10,14 +10,14 @@ package body Lists.dynamic is
         Put_Line("List_Constant_Reference (LD, " & Index'Img & ");");
         return R;
     end;
- 
+
     overriding
     function List_Constant_Reference (Container : aliased in List; Position  : Cursor) return Constant_Reference_Type is
     begin
         Put_Line("List_Constant_Reference (CLD, " & Position.Index'Img & ");");
         return List_Constant_Reference(Container, Position.Index);
     end;
- 
+
     overriding
     function List_Reference (Container : aliased in out List; Index : Index_Type) return Reference_Type is
         VR : ACV.Reference_Type := Container.vec.Reference(Index);
@@ -48,5 +48,5 @@ package body Lists.dynamic is
         return L;
     end;
 
-    
+
 end Lists.dynamic;

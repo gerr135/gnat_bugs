@@ -1,16 +1,3 @@
---
---  A barebones indexed interface which can be iterated over.
--- Child packages will either pass through to core (fixed) array or a Vector;
--- test if we can create an interface and pass containers or fixed array to it later..
--- Copyright (C) 2018  <copyright holder> <email>
--- 
--- This program is distributed in the hope that it will be useful,
--- but WITHOUT ANY WARRANTY; without even the implied warranty of
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--- GNU General Public License for more details.
---
--- test if we can create an interface and pass containers or fixed array to it later..
-
 with Ada.Containers.Vectors;
 
 generic
@@ -20,10 +7,10 @@ package Lists.dynamic is
 
     overriding
     function List_Constant_Reference (Container : aliased in List; Position  : Cursor) return Constant_Reference_Type;
- 
+
     overriding
     function List_Constant_Reference (Container : aliased in List; Index : Index_Type) return Constant_Reference_Type;
- 
+
     overriding
     function List_Reference (Container : aliased in out List; Position  : Cursor) return Reference_Type;
 
@@ -43,5 +30,5 @@ private
     type List is new List_Interface with record
         vec : ACV.Vector;
     end record;
-    
+
 end Lists.dynamic;

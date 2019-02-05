@@ -4,5 +4,5 @@ package body Lists is
     begin
         return Position /= No_Element;
     end Has_Element;
-    
+
 end Lists;
