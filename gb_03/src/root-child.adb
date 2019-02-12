@@ -1,18 +1,25 @@
 pragma Ada_2012;
 
 with Ada.Text_IO;
+
 package body root.child is
 
-    procedure Set_Smth (AB : in out Abstract_Base'Class; smth : Integer) is
+    overriding
+    function ToRepr (B : Base) return Repr is
+        R : Repr(Natural(B.sv.Length));
         use Ada.Text_IO;
     begin
-        Put_Line("Set_smth(" & smth'img & ")"); -- never gets here
-        declare
-            R : Repr := AB.ToRepr;
-        begin
-            R.smth := smth;
-            AB.FromRepr(R);
-        end;
-    end Set_Smth;
+        Put_Line("ToRepr");
+        R.smth := B.smth;
+        return R;
+    end ToRepr;
+
+    overriding
+    procedure FromRepr (B : in out Base; rp : Repr) is
+    begin
+        --  Generated stub: replace with real body!
+        pragma Compile_Time_Warning (Standard.True, "FromRepr unimplemented");
+        raise Program_Error with "Unimplemented procedure FromRepr";
+    end FromRepr;
 
 end root.child;

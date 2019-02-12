@@ -1,16 +1,9 @@
-with Ada.Text_IO;
-
-with root.child.impl;
+with Ada.Text_IO; use Ada.Text_IO;
+with root.child;
 
 procedure run_gb_03 is
 
-    package PR is new root(Real => Float);
-    package PRC is new PR.child;
-    package PRCI is new PRC.impl;
-
-    B : PRCI.Base;
-
-    use Ada.Text_IO;
+    B : root.child.Base;
 
 begin
     Put_Line("started main");

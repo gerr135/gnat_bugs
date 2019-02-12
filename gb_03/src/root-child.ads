@@ -1,22 +1,22 @@
-generic
+with Ada.Containers.Vectors;
+
 package root.child is
 
-    type Repr is private;
+    type Base is new Abstract_Base with private;
 
-    type Abstract_Base is interface;
+    overriding
+    function  ToRepr(B : Base) return Repr;
 
-    function  ToRepr(AB : Abstract_Base) return Repr is abstract;
-    procedure FromRepr(AB : in out Abstract_Base; rp : Repr) is abstract;
-
-    procedure Set_Smth (AB : in out Abstract_Base'Class; smth : Integer);
+    overriding
+    procedure FromRepr(B : in out Base; rp : Repr);
 
 private
 
-    type Smth_Array is array (Positive range <>) of Integer;
-    
-    type Repr(Size : Natural := 0) is record
+    package ACV is new Ada.Containers.Vectors(Positive, Integer);
+
+    type Base is new Abstract_Base with record
         smth : Integer;
-        sa : Smth_Array(1..Size);
+        sv : ACV.Vector;
     end record;
 
 end root.child;
