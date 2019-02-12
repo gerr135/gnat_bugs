@@ -13,12 +13,11 @@ package root.child.impl is
 
 private
 
-    package ACV is new Ada.Containers.Vectors(Positive, Real);
+    package ACV is new Ada.Containers.Vectors(Positive, Integer);
 
     type Base is new Abstract_Base with record
         smth : Integer;
-        smth_else : Real;
-        vec : ACV.Vector;
+        sv : ACV.Vector;
     end record;
 
 end root.child.impl;

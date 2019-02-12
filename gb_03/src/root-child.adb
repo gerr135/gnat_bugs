@@ -4,12 +4,15 @@ with Ada.Text_IO;
 package body root.child is
 
     procedure Set_Smth (AB : in out Abstract_Base'Class; smth : Integer) is
-        R : Repr := AB.ToRepr;
         use Ada.Text_IO;
     begin
-        Put_Line("Set_smth(" & smth'img & ")");
-        R.smth := smth;
-        AB.FromRepr(R);
+        Put_Line("Set_smth(" & smth'img & ")"); -- never gets here
+        declare
+            R : Repr := AB.ToRepr;
+        begin
+            R.smth := smth;
+            AB.FromRepr(R);
+        end;
     end Set_Smth;
 
 end root.child;

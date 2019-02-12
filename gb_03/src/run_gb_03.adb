@@ -1,26 +1,18 @@
 with Ada.Text_IO;
 
-with wann.nets.vectors;
-with wann.neurons.vectors;
+with root.child.impl;
 
 procedure run_gb_03 is
 
-    package PW is new wann(Real => Float);
-    package PNet   is new PW.nets;
-    package PNetV  is new PNet.vectors;
-    package PN renames PNet.PN;
-    package PNV is new PN.vectors;
+    package PR is new root(Real => Float);
+    package PRC is new PR.child;
+    package PRCI is new PRC.impl;
 
-    use PW; use NN;
-
-    neur1 : PNV.Neuron := PNV.Create(Sigmoid, ((I,1),(I,2)), 1.0);
-    net1  : PNetV.NNet;
-
-    idx : NN.NeuronIndex_Base;
+    B : PRCI.Base;
 
     use Ada.Text_IO;
 
 begin
     Put_Line("started main");
-    net1.Add_Neuron(neur1, idx);
+    B.Set_Smth(1);
 end run_gb_03;

@@ -1,12 +1,16 @@
 pragma Ada_2012;
+
+with Ada.Text_IO;
+
 package body root.child.impl is
 
     overriding
     function ToRepr (B : Base) return Repr is
-        R : Repr(Natural(B.vec.Length));
+        R : Repr(Natural(B.sv.Length));
+        use Ada.Text_IO;
     begin
+        Put_Line("ToRepr");
         R.smth := B.smth;
-        R.smth_else := B.smth_else;
         return R;
     end ToRepr;
 

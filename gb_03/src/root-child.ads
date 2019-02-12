@@ -12,9 +12,11 @@ package root.child is
 
 private
 
-    type Repr(param : Natural := 0) is record
+    type Smth_Array is array (Positive range <>) of Integer;
+    
+    type Repr(Size : Natural := 0) is record
         smth : Integer;
-        smth_else : Real;
+        sa : Smth_Array(1..Size);
     end record;
 
 end root.child;
