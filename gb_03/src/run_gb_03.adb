@@ -1,4 +1,4 @@
-with Ada.Text_IO, Ada.Integer_Text_IO;
+with Ada.Text_IO;
 
 with root.child.impl;
 
@@ -14,5 +14,5 @@ procedure run_gb_03 is
 
 begin
     Put_Line("started main");
-    B.set_SMth(1);
+    B.set_Smth(1);
 end run_gb_03;

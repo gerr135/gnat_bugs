@@ -3,7 +3,7 @@ package body root.child.impl is
 
     overriding
     function ToRepr (B : Base) return Repr is
-        R : Repr(Integer(B.vec.Length));
+        R : Repr(Natural(B.vec.Length));
     begin
         R.smth := B.smth;
         R.smth_else := B.smth_else;

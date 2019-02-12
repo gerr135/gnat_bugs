@@ -3,9 +3,7 @@ package root.child is
 
     type Repr is private;
 
-    type Abstract_Base is abstract tagged record
-        smth : Integer;
-    end record;
+    type Abstract_Base is interface;
 
     function  ToRepr(AB : Abstract_Base) return Repr is abstract;
     procedure FromRepr(AB : in out Abstract_Base; rp : Repr) is abstract;
@@ -14,7 +12,7 @@ package root.child is
 
 private
 
-    type Repr(param : Integer := 0) is record
+    type Repr(param : Natural := 0) is record
         smth : Integer;
         smth_else : Real;
     end record;
