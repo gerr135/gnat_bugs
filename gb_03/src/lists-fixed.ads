@@ -1,9 +1,7 @@
 --
--- This implementation encapsulates Ada.Containers.Vectors.Vector as a record entry.
--- This is a common way to compose enveloping type, requiring glue code to implement all
--- declared methods. SImple to understand, but only explicitly declared methods are available.
+-- This is a "fixed" implementation, as a straight (discriminated) array, no memory management.
 --
--- Copyright (C) 2018 George SHapovalov <gshapovalov@gmail.com>
+-- Copyright (C) 2018 George Shapovalov <gshapovalov@gmail.com>
 --
 -- This program is distributed in the hope that it will be useful,
 -- but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -11,12 +9,12 @@
 -- GNU General Public License for more details.
 --
 
-with Ada.Containers.Vectors;
-
 generic
-package Lists.dynamic is
+package Lists.fixed is
 
-    type List is new List_Interface with private;
+    type List(Last : Index_Base) is new List_Interface with private;
+    -- Last - last index of array, e.g. 1..2 - last:=2; 4..9 - last:=9;
+    -- first index is Index_Type'First
 
     overriding
     function Element_Constant_Reference (Container : aliased in List; Position  : Cursor) return Constant_Reference_Type;
@@ -45,15 +43,12 @@ package Lists.dynamic is
     function Last_Index (Container : aliased in out List) return Index_Type;
 
 
-    -- new methods from ACV.Vector pool; should really be part of interface, here is only a demo of tying all together..
-    function To_Vector (Length : Index_Type) return List;
-
 private
 
-    package ACV is new Ada.Containers.Vectors(Index_Type, Element_Type);
+    type Element_Array is array (Index_Type range <>) of aliased Element_Type;
 
-    type List is new List_Interface with record
-        vec : ACV.Vector;
+    type List(Last : Index_Base) is new List_Interface with record
+        data : Element_Array(Index_Type'First .. Last);
     end record;
 
     function Has_Element (L : List; Position : Index_Base) return Boolean;
@@ -77,4 +72,4 @@ private
     function Previous (Object   : Iterator; Position : Cursor) return Cursor;
 
 
-end Lists.dynamic;
+end Lists.fixed;

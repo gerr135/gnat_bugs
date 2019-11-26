@@ -16,7 +16,7 @@
 with Ada.Iterator_Interfaces;
 
 generic
-    type Index_Base is range <>; -- pass an "extended" indes_base (e.g. starting from 0 and counting from 1)
+    type Index_Base is range <>; -- pass an "extended" index_base (e.g. starting from 0 and counting from 1)
     type Element_Type is private;
 package Lists is
 
@@ -24,10 +24,10 @@ package Lists is
     -- mirrors the common subtype definition. Should be the same as defined likewise anywhere else..
 
     type List_Interface is interface
-        with Constant_Indexing => List_Constant_Reference,
-            Variable_Indexing => List_Reference,
-            Default_Iterator  => Iterate,
-            Iterator_Element  => Element_Type;
+        with Constant_Indexing => Element_Constant_Reference,
+             Variable_Indexing => Element_Reference,
+             Default_Iterator  => Iterate,
+             Iterator_Element  => Element_Type;
 
     type Cursor is private;
     No_Element : constant Cursor;
@@ -35,17 +35,22 @@ package Lists is
     function Has_Element (Position : Cursor) return Boolean;
     package List_Iterator_Interfaces is new Ada.Iterator_Interfaces (Cursor, Has_Element);
 
+    -- we need to redispatch to a proper derived type, so we need to unroll the record
+    -- to make this a primitive op
+    function Has_Element (LI : List_Interface; Position : Index_Base) return Boolean is abstract;
+    -- NOTE: This should really be in provate part, but Ada doers not allow it (citing RM 3.9.3(10))
+
     type Constant_Reference_Type (Data : not null access constant Element_Type) is private
         with Implicit_Dereference => Data;
 
     type Reference_Type (Data : not null access Element_Type) is private
         with Implicit_Dereference => Data;
 
-    function List_Constant_Reference (Container : aliased in List_Interface; Position  : Cursor) return Constant_Reference_Type is abstract;
-    function List_Constant_Reference (Container : aliased in List_Interface; Index : Index_Type) return Constant_Reference_Type is abstract;
+    function Element_Constant_Reference (Container : aliased in List_Interface; Position  : Cursor) return Constant_Reference_Type is abstract;
+    function Element_Constant_Reference (Container : aliased in List_Interface; Index : Index_Type) return Constant_Reference_Type is abstract;
 
-    function List_Reference (Container : aliased in out List_Interface; Position  : Cursor) return Reference_Type is abstract;
-    function List_Reference (Container : aliased in out List_Interface; Index : Index_Type) return Reference_Type is abstract;
+    function Element_Reference (Container : aliased in out List_Interface; Position  : Cursor) return Reference_Type is abstract;
+    function Element_Reference (Container : aliased in out List_Interface; Index : Index_Type) return Reference_Type is abstract;
     -- these names have to be different from what is used (in private part) by Ada.Containers.Vectors
     -- if we are to directly glue ACV.Vector over this,
     -- otherwise the compiler gets confused..
@@ -59,10 +64,23 @@ package Lists is
     type Iterator_Interface is interface and List_Iterator_Interfaces.Reversible_Iterator;
     -- all 4 primitives (First, Last, Next, Prev) would be abstract here anyway,
     -- so they are implicitly carried over
+    --
+    -- NOTE: in this (trivial) case 3 out of 4 primitives have exactly the same implementation,
+    -- so this could have been made a real type, with a specific method overridden
+    -- But we keep it as is as a demo of a more generic design pattern..
 
 
     function Iterate (Container : List_Interface) return Iterator_Interface'Class is abstract;
     -- this one can (and should) share the name/specs, as it is not part of any aspect..
+
+
+    ------------------------------------------------
+    -- Extras (to the basic indexing/iteration)
+
+    function Length (Container : aliased in out List_Interface) return Index_Base is abstract;
+    function First_Index(Container : aliased in out List_Interface) return Index_Type is abstract;
+    function Last_Index (Container : aliased in out List_Interface) return Index_Type is abstract;
+
 
 private
 
@@ -79,9 +97,5 @@ private
     type Constant_Reference_Type(Data : not null access constant Element_Type) is null record;
 
     type Reference_Type (Data : not null access Element_Type) is null record;
-
---     type Iterator_Interface is abstract new List_Iterator_Interfaces.Reversible_Iterator with null record;
-    -- all 4 primitives (First, Last, Next, Prev) would be abstract here anyway,
-    -- so they are implicitly carried over
 
 end Lists;

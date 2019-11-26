@@ -1,37 +1,31 @@
-package body Lists.dynamic is
-
-    overriding
-    function Element_Constant_Reference (Container : aliased in List; Index : Index_Type) return Constant_Reference_Type is
-        CVR : ACV.Constant_Reference_Type := Container.vec.Constant_Reference(Index);
-        R : Constant_Reference_Type(CVR.Element);
-    begin
-        return R;
-    end;
+package body Lists.fixed is
 
     overriding
     function Element_Constant_Reference (Container : aliased in List; Position  : Cursor) return Constant_Reference_Type is
+        CR : Constant_Reference_Type(Container.data(Position.Index)'Access);
     begin
-        return Element_Constant_Reference(Container, Position.Index);
+        return CR;
     end;
 
     overriding
-    function Element_Reference (Container : aliased in out List; Index : Index_Type) return Reference_Type is
-        VR : ACV.Reference_Type := Container.vec.Reference(Index);
-        R : Reference_Type(VR.Element);
+    function Element_Constant_Reference (Container : aliased in List; Index : in Index_Type) return Constant_Reference_Type is
+        CR : Constant_Reference_Type(Container.data(Index)'Access);
     begin
-        return R;
+        return CR;
     end;
 
     overriding
     function Element_Reference (Container : aliased in out List; Position  : Cursor) return Reference_Type is
+        R : Reference_Type(Container.data(Position.Index)'Access);
     begin
-        return Element_Reference(Container, Position.Index);
+        return R;
     end;
 
-    function To_Vector (Length : Index_Type) return List is
-        L : List := (vec => ACV.To_Vector(Ada.Containers.Count_Type(Length)));
+    overriding
+    function Element_Reference (Container : aliased in out List; Index : in Index_Type) return Reference_Type is
+        R : Reference_Type(Container.data(Index)'Access);
     begin
-        return L;
+        return R;
     end;
 
     overriding
@@ -42,10 +36,12 @@ package body Lists.dynamic is
     end;
 
     function Has_Element (L : List; Position : Index_Base) return Boolean is
+        -- Iterators are unrolled into calling First/Last to assign index
+        -- and then increment/decrement it inside a "while Has_Element(Cursor)" loop
+        -- So we simply check if our index passed outside boundaries..
     begin
-        return ACV.Has_Element(L.vec.To_Cursor(Position));
+        return (Position >= L.data'First) and (Position <= L.Last);
     end;
-
 
 
     overriding
@@ -57,7 +53,7 @@ package body Lists.dynamic is
 
     overriding
     function Last  (Object : Iterator) return Cursor is
-        C : Cursor := (Object.Container, List(Object.Container.all).vec.Last_Index);
+        C : Cursor := (Object.Container, List(Object.Container.all).Last);
     begin
         return C;
     end;
@@ -77,23 +73,24 @@ package body Lists.dynamic is
     end;
 
 
+    ----  Extras --
     overriding
     function Length (Container : aliased in out List) return Index_Base is
     begin
-        return Index_Base(Container.vec.Length);
+        return Container.data'Length;
     end;
 
     overriding
     function First_Index(Container : aliased in out List) return Index_Type is
     begin
-        return Index_Type'First;
+        return Container.data'First;
     end;
 
     overriding
     function Last_Index (Container : aliased in out List) return Index_Type is
     begin
-        return Index_Type'First + Index_Base(Container.vec.Length) - 1;
+        return Container.data'Last;
     end;
 
 
-end Lists.dynamic;
+end Lists.fixed;
