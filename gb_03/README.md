@@ -1,28 +1,25 @@
-# Gnat bug #2: infinite recursion while tracing inheritance
-This bug is triggerred by improper iheritance specification, likely causing cyclic self-dependency.
-Normally this should make gnat spit out error message and quit gracefully. Instead gnat
-reports "stack overflow or erroneous memory access". Likely the code in this example
-confuses gnat into going into infinite recursion, while trying to resolve inheritance.
+# Gnat bug #3: gnat cannot handle tagged type hierarchy as discriminated record entry
+This happens while trying to have a tagged type hierarchy, rooted in an interface, as a filed of a discriminated record.
+Stabdalone variables work fin, just as a field of an undiscriminated record.
 
 ## Priority
-Low, trigerred by errorneous code.
+High, legitimate code representing what should be a common scenario breaks gnat.
 
 ## Status
 Initial code preparation.
 
 ## Workarounds
-None, and not necessary. This is caused by errorneous code. However gnat should stop gracefully,
-instead of going itno infinite recusrion and dying.
+Avoid discriminants passed to the type hierarchy? That pretty much means avoiding fixed/bounded list implementations for now..
 
 ## Bug message
 A specific bug message that is triggered:
 ```
-gprbuild -P gb_02.gpr
+gprbuild -P gb_03.gpr
 Compile
-   [Ada]          run_gb_02.adb
+   [Ada]          bug_03.adb
 +===========================GNAT BUG DETECTED==============================+
-| Community 2018 (20180524-73) (x86_64-pc-linux-gnu) Storage_Error stack overflow or erroneous memory access|
-| Error detected at lists-dynamic.adb:42:9 [run_gb_02.adb:18:5]            |
+| Community 2019 (20190517-83) (x86_64-pc-linux-gnu) Storage_Error stack overflow or erroneous memory access|
+| Error detected at bug_03.adb:76:12                                       |
 | Please submit a bug report by email to report@adacore.com.               |
 | GAP members can alternatively use GNAT Tracker:                          |
 | http://www.adacore.com/ section 'send a report'.                         |
@@ -40,16 +37,12 @@ so please double check that the problem can still
 be reproduced with the set of files listed.
 Consider also -gnatd.n switch (see debug.adb).
 
-/home/gerr/comp/kdevel/ada/gnat_bugs/gb_02/src_bug/run_gb_02.adb
-/home/gerr/comp/kdevel/ada/gnat_bugs/gb_02/src_bug/lists.ads
-/home/gerr/comp/kdevel/ada/gnat_bugs/gb_02/src_bug/lists-dynamic.ads
-/home/gerr/comp/kdevel/ada/gnat_bugs/gb_02/src_bug/lists-dynamic.adb
-/home/gerr/comp/kdevel/ada/gnat_bugs/gb_02/src_bug/lists.adb
+/home/gerr/comp/kdevel/ada/gnat_bugs/gb_03/src/bug_03.adb
+/home/gerr/comp/kdevel/ada/gnat_bugs/gb_03/src/lists.ads
+/home/gerr/comp/kdevel/ada/gnat_bugs/gb_03/src/lists-fixed.ads
+/home/gerr/comp/kdevel/ada/gnat_bugs/gb_03/src/lists-dynamic.ads
 
-run_gb_02.adb:18:05: warning: in instantiation at lists-dynamic.adb:42
-run_gb_02.adb:18:05: warning: type in allocator has deeper level than designated class-wide type
-run_gb_02.adb:18:05: warning: Program_Error will be raised at run time
 compilation abandoned
 gprbuild: *** compilation phase failed
-make: *** [Makefile:8: gb_01] Error 4
+make: *** [Makefile:6: all] Error 4
 ```
