@@ -7,9 +7,12 @@ This is a holding place for the gnat bugs I encountered, to be reported to AdaCo
 The individual entries are organized in two classes: bugs and issues. The bugs include actual bugs - when gnat emits that bug message or generates problemmatic code. The issues are known, well, issues, when gnat generates appropriate code, according to the standard, but the specifics of implementation of some feature may cause trouble. 
 
 ## List of bugs
-1. [null primitives](gb_01/)  Null primitive ops on interfaces in generic child packages seem to not be implemented properly.
-2. [(minor)inheritance tracing](gb_02/) Infinite recursion while tracing inheritance
 
+### Outstanding
+1. [(minor)inheritance tracing](gb_02/) Infinite recursion while tracing inheritance
+
+### Fixed
+1. [null primitives](gb_01/)  Null primitive ops on interfaces in generic child packages seem to not be implemented properly.
 
 ## List of issues
 1. [discriminant defaults](gi_01/) Declaring unconstrained (too large) discriminated record with default
