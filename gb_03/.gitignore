@@ -1,0 +1,6 @@
+# Object and Ada Library Information files
+*.o
+*.ali
+
+# generated binaries
+bug_03
