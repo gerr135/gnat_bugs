@@ -1,5 +1,5 @@
 # Gnat Issue #1: declaring unconstrained (too large) discriminated record with default
-Ada allows to declared unconstrained variables of discriminated record when discriminant
+Ada allows to declare unconstrained variables of discriminated record when discriminant
 has the default set. See ARM 3.7(28).
 In such case, the discriminant value, as well as the size of dependant entries, can change.
 This is done by replacing an entire record (so all values have to be set at once).
