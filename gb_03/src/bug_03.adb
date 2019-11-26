@@ -14,9 +14,8 @@ use Ada.Text_IO;
 with Ada.Containers.Vectors;
 with lists.Fixed;
 with lists.Dynamic;
-with lists.Vectors;
 
-procedure bug01 is
+procedure bug_03 is
 
     type Element_Type is new Integer;
 
@@ -25,7 +24,6 @@ procedure bug01 is
     package PL  is new Lists(Natural, Element_Type);
     package PLF is new PL.Fixed;
     package PLD is new PL.Dynamic;
-    package PLV is new PL.Vectors;
 
 
 begin
@@ -59,18 +57,6 @@ begin
         lddr.f(1) := 1;
     end;
     --
-    Put_Line("Lists.Vectors..");
-    declare
-        lv : PLV.List := PLV.To_Vector(5);
-        type VRec is record
-            f : PLV.List;
-        end record;
-        lvr : VRec := (f => PLV.To_Vector(5));
-    begin
-        lv(1) := 1;
-        lvr.f(1) := 1;
-    end;
-    --
     Put_Line("Lists.Fixed (discriminated record)");
     declare
         type FRec5 is record
@@ -89,4 +75,4 @@ begin
         lfr5.f(1) := 1;  -- this is still fine
         lfr.f(1)  := 1;  -- this triggers the bug
     end;
-end bug01;
+end bug_03;
