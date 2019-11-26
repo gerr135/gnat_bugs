@@ -18,7 +18,8 @@ one triggering the bug, the "sometimes" case and a workaround dir:
 Medium/high. Triggered by compliant and trivial code. Affects ADT construction en large.
 
 ## Status
-AdaCore acknowledgement received on 5.02.2019.
+Apparently fixed in gnat-2019.<br>
+AdaCore acknowledgement received on 5.02.2019.<br>
 Reported to AdaCore on 4.02.2019.
 
 ## Workarounds
