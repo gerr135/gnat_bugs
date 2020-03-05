@@ -6,7 +6,8 @@ Stabdalone variables work fin, just as a field of an undiscriminated record.
 High, legitimate code representing what should be a common scenario breaks gnat.
 
 ## Status
-Initial code preparation.
+Fixed upstream, to be incorporated in next version of gnat.
+Received an email from AdaCore acknowledging the bug and, a week or tow later, announcing the fix in their internal tree.
 
 ## Workarounds
 Avoid discriminants passed to the type hierarchy? That pretty much means avoiding fixed/bounded list implementations for now..
