@@ -10,10 +10,10 @@ The individual entries are organized in two classes: bugs and issues. The bugs i
 
 ### Outstanding
 1. [(minor) inheritance tracing](gb_02/) Infinite recursion while tracing inheritance.
-2. [(major) discriminated records and inheritance](gb_03) Tagged hierarchy as discriminated record entry.
 
 ### Fixed
 1. [null primitives](gb_01/)  Null primitive ops on interfaces in generic child packages seem to not be implemented properly.
+2. [(major) discriminated records and inheritance](gb_03) Tagged hierarchy as discriminated record entry.
 
 ## List of issues
 1. [discriminant defaults](gi_01/) Declaring unconstrained (too large) discriminated record with default
